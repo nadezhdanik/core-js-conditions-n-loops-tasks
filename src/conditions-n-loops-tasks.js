@@ -425,8 +425,22 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const array = arr;
+
+  for (let i = 1; i < arr.length; i += 1) {
+    const num = array[i];
+    let j = i - 1;
+
+    while (j >= 0 && array[j] > num) {
+      array[j + 1] = array[j];
+      j -= 1;
+    }
+
+    array[j + 1] = num;
+  }
+
+  return array;
 }
 
 /**
@@ -446,8 +460,28 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let result = str;
+
+  for (let i = 0; i < iterations; i += 1) {
+    let front = '';
+    let back = '';
+
+    for (let j = 0; j < result.length; j += 1)
+      if (j % 2) {
+        back += result[j];
+      } else {
+        front += result[j];
+      }
+
+    result = front + back;
+
+    if (result === str) {
+      return shuffleChar(str, iterations % (i + 1));
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -467,8 +501,43 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  let num = number;
+  const numbers = [];
+
+  while (num > 0) {
+    numbers.unshift(num % 10);
+    num = Math.floor(num / 10);
+  }
+
+  let pivot;
+  const head = [];
+  let tail = [];
+
+  for (let i = numbers.length - 1; i >= 0; i -= 1) {
+    if (numbers[i] > numbers[i - 1]) {
+      pivot = i - 1;
+      [numbers[i], numbers[i - 1]] = [numbers[i - 1], numbers[i]];
+      break;
+    }
+  }
+
+  for (let i = 0; i <= pivot; i += 1) {
+    head.push(numbers[i]);
+  }
+
+  for (let i = pivot + 1; i < numbers.length; i += 1) {
+    tail.push(numbers[i]);
+  }
+
+  tail = sortByAsc(tail);
+
+  const resultArray = [...head, ...tail];
+  let result = '';
+  for (let i = 0; i < resultArray.length; i += 1) {
+    result += resultArray[i];
+  }
+  return +result;
 }
 
 module.exports = {
