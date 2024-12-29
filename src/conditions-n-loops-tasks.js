@@ -425,6 +425,7 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
+
 function sortByAsc(arr) {
   const array = arr;
 
@@ -517,10 +518,18 @@ function getNearestBigger(number) {
   for (let i = numbers.length - 1; i >= 0; i -= 1) {
     if (numbers[i] > numbers[i - 1]) {
       pivot = i - 1;
-      [numbers[i], numbers[i - 1]] = [numbers[i - 1], numbers[i]];
       break;
     }
   }
+
+  let swap;
+  for (let i = numbers.length - 1; i > pivot; i -= 1) {
+    if (numbers[i] > numbers[pivot]) {
+      swap = i;
+      break;
+    }
+  }
+  [numbers[pivot], numbers[swap]] = [numbers[swap], numbers[pivot]];
 
   for (let i = 0; i <= pivot; i += 1) {
     head.push(numbers[i]);
